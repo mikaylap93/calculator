@@ -22,8 +22,6 @@ public class InputPanel extends JPanel implements CalculationBroadcaster{
         GridBagLayout gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
         GridBagConstraints gbc = new GridBagConstraints();
-
-        //setBorder(BorderFactory.createLineBorder(darkestGray,5));
         setBorder(new EmptyBorder(-2, -1, -2, -1));
 
         gbc.weighty = 1;
@@ -31,47 +29,74 @@ public class InputPanel extends JPanel implements CalculationBroadcaster{
         gbc.gridwidth = 1;
         gbc.fill = GridBagConstraints.BOTH;
 
-        JButton button1 = setUpButton("1",mediumGray);
+        JButton button1 = setUpButton("1",mediumGray,false);
         button1.addActionListener(e -> {
         crunch(1.0);
         isFunctionPrevious = false;
         });
 
-        JButton button2 = setUpButton("2",mediumGray);
-        button2.addActionListener(e -> crunch(2.0));
+        JButton button2 = setUpButton("2",mediumGray,true);
+        button2.addActionListener(e -> {
+            crunch(2.0);
+            isFunctionPrevious = false;
+        });
 
-        JButton button3 = setUpButton("3",mediumGray);
-        button3.addActionListener(e ->  crunch(3.0));
+        JButton button3 = setUpButton("3",mediumGray,false);
+        button3.addActionListener(e ->  {
+            crunch(3.0);
+            isFunctionPrevious = false;
+        });
 
-        JButton button4 = setUpButton("4",mediumGray);
-        button4.addActionListener(e ->  crunch(4.0));
+        JButton button4 = setUpButton("4",mediumGray,true);
+        button4.addActionListener(e ->  {
+            crunch(4.0);
+            isFunctionPrevious = false;
+        });
 
-        JButton button5 = setUpButton("5",mediumGray);
-        button5.addActionListener(e ->  crunch(5.0));
+        JButton button5 = setUpButton("5",mediumGray,false);
+        button5.addActionListener(e ->  {
+            crunch(5.0);
+            isFunctionPrevious = false;
+        });
 
-        JButton button6 = setUpButton("6",mediumGray);
-        button6.addActionListener(e ->  crunch(6.0));
+        JButton button6 = setUpButton("6",mediumGray,true);
+        button6.addActionListener(e ->  {
+            crunch(6.0);
+            isFunctionPrevious = false;
+        });
 
-        JButton button7 = setUpButton("7",mediumGray);
-        button7.addActionListener(e ->  crunch(7.0));
+        JButton button7 = setUpButton("7",mediumGray,false);
+        button7.addActionListener(e ->  {
+            crunch(7.0);
+            isFunctionPrevious = false;
+        });
 
-        JButton button8 = setUpButton("8",mediumGray);
-        button8.addActionListener(e ->  crunch(8.0));
+        JButton button8 = setUpButton("8",mediumGray,true);
+        button8.addActionListener(e ->  {
+            crunch(8.0);
+            isFunctionPrevious = false;
+        });
 
-        JButton button9 = setUpButton("9",mediumGray);
-        button9.addActionListener(e ->  crunch(9.0));
+        JButton button9 = setUpButton("9",mediumGray,false);
+        button9.addActionListener(e ->  {
+            crunch(9.0);
+            isFunctionPrevious = false;
+        });
 
-        JButton button0 = setUpButton("0",mediumGray);
-        button0.addActionListener(e -> crunch(0.0));
+        JButton button0 = setUpButton("0",mediumGray,true);
+        button0.addActionListener(e -> {
+            crunch(0.0);
+            isFunctionPrevious = false;
+        });
 
-        JButton buttonPercent = setUpButton("%",darkGray);
+        JButton buttonPercent = setUpButton("%",darkGray,true);
         buttonPercent.addActionListener(e -> {
             currentDouble = currentDouble/100;
             isDouble = true;
             calculationBroadcast(currentDouble, true);
         });
 
-        JButton buttonAC = setUpButton("AC",darkGray);
+        JButton buttonAC = setUpButton("AC",darkGray,true);
         buttonAC.addActionListener(
                 e -> {
                     currentDouble = 0;
@@ -79,39 +104,49 @@ public class InputPanel extends JPanel implements CalculationBroadcaster{
                     calculationBroadcast(currentDouble, false);
                 });
 
-        JButton buttonPlusMinusSign = setUpButton("+/-",darkGray);
+        JButton buttonPlusMinusSign = setUpButton("+/-",darkGray,false);
         buttonPlusMinusSign.addActionListener(e -> {
             if(currentDouble >0 ){
                 currentDouble = currentDouble*-1;
             }else currentDouble = Math.abs(currentDouble);
             calculationBroadcast(currentDouble,isDouble);
         });
-        JButton buttonDecimal = setUpButton(".",mediumGray);
+        JButton buttonDecimal = setUpButton(".",mediumGray,true);
         buttonDecimal.addActionListener(e -> {
             isDouble = true;
             calculationBroadcast(currentDouble,true);
         });
 
         //TODO, when function is pressed, tell numbers to stop adding to end of previousDouble
-        JButton buttonPlus = setUpButton("+",darkOrange);
+        JButton buttonPlus = setUpButton("+",darkOrange,true);
         buttonPlus.addActionListener(e -> {
+            currentDouble = previousDouble+currentDouble;
+            previousDouble = 0;
+            calculationBroadcast(currentDouble,isDouble);
             function = Function.ADD;
             isFunctionPrevious = true;
+
         });
 
-        JButton buttonMinus = setUpButton("-",darkOrange);
+        JButton buttonMinus = setUpButton("-",darkOrange,false);
         buttonMinus.addActionListener(e -> {
             function = Function.MINUS;
             isFunctionPrevious = true;
         });
 
-        JButton buttonMultiply = setUpButton("x",darkOrange);
-        buttonMultiply.addActionListener(e -> function = Function.MULTIPLY);
+        JButton buttonMultiply = setUpButton("x",darkOrange,true);
+        buttonMultiply.addActionListener(e -> {
+            function = Function.MULTIPLY;
+            isFunctionPrevious = true;
+        });
 
-        JButton buttonDivide = setUpButton("/",darkOrange);
-        buttonDivide.addActionListener(e -> function = Function.DIVIDE);
+        JButton buttonDivide = setUpButton("/",darkOrange,false);
+        buttonDivide.addActionListener(e -> {
+            function = Function.DIVIDE;
+            isFunctionPrevious = true;
+        });
 
-        JButton buttonEquals = setUpButton("=",darkOrange);
+        JButton buttonEquals = setUpButton("=",darkOrange,false);
         buttonEquals.addActionListener(e -> {
             double numb = 0.0;
             switch (function){
@@ -244,13 +279,16 @@ public class InputPanel extends JPanel implements CalculationBroadcaster{
             calculationBroadcast((int)num,isDouble);
         }
     }
-    private JButton setUpButton(String name,Color backColor){
+    private JButton setUpButton(String name,Color backColor, Boolean isBordered){
         JButton jButton = new JButton(name);
         jButton.setFont(new Font("Helvetica",Font.PLAIN,20));
-        jButton.setBorder(BorderFactory.createLineBorder(darkestGray));
         jButton.setOpaque(true);
         jButton.setBackground(backColor);
         jButton.setForeground(Color.WHITE);
+
+        if(isBordered) {
+            jButton.setBorder(BorderFactory.createLineBorder(darkestGray));
+        }else jButton.setBorder(BorderFactory.createEmptyBorder());
 
         return jButton;
     }
